@@ -1,27 +1,43 @@
 package system;
 
 public class InputsValidator {
-    public boolean isValidUsername(String username){
-        return false;
+    private void checkUsernameValidation(String username){
+
     }
 
-    public boolean isValidEmail(String email){
-        return false;
+    private void checkEmailValidation(String email){
+
     }
 
-    public boolean isValidPhoneNumber(String phoneNumber){
-        return false;
+    private void checkPhoneNumValidation(String phoneNumber){
+
     }
 
-    public boolean isValidPassword(String password){
-        return false;
+    private void checkPasswordValidation(String password){
+
     }
 
-    public boolean isValidNationalID(String id){
-        return false;
+    private void checkNationalIdValidation(String id){
+
     }
 
-    public boolean isValidLicense(String license){
-        return false;
+    private void checkLicenseValidation(String license){
+
+    }
+
+    public void checkValidation(String fieldName, String userInput){
+        if(fieldName.equals("username")){
+            checkUsernameValidation(userInput);
+        }else if(fieldName.equals("mobile_number")){
+            checkPhoneNumValidation(userInput);
+        }else if(fieldName.equals("email")){
+            checkEmailValidation(userInput);
+        }else if(fieldName.equals("password")){
+            checkPasswordValidation(userInput);
+        }else if(fieldName.equals("national_id")){
+            checkNationalIdValidation(userInput);
+        }else if(fieldName.equals("driving_licence")){
+            checkLicenseValidation(userInput);
+        }
     }
 }
