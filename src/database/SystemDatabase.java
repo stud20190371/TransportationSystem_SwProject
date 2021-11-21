@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import interfaces.Notifiable;
 import interfaces.Notifier;
+import interfaces.RideRequester;
 import rideRequest.RideRequest;
 import user.Admin;
 import user.Driver;
@@ -62,6 +63,29 @@ public class SystemDatabase implements Notifier{
 
     public ArrayList<RideRequest> getSystemRideRequests(){
         return this.systemRideRequests.getRideRequests();
+    }
+
+    public ArrayList<RideRequest> getRequesterRequests(RideRequester requester){
+        ArrayList<RideRequest> requests = new ArrayList<>();
+
+        for(RideRequest request: systemRideRequests.getRideRequests()){
+            if(request.matchRequester(requester)){
+                requests.add(request);
+            }
+        }
+
+        return requests;
+    }
+
+    public void notifyDrivers(RideRequest request){
+        for(Driver driver: systemDrivers.getDrivers()){
+            if(driver.searchArea(request.getSourceName()) != -1){
+                String notification = "\nThere's a ride request by (" + request.getRequesterName() + ")\n" + 
+                            "Source: " + request.getSourceName() + " and Destination: " + request.getDestName() + "\n";
+                            
+                notify(driver, notification);
+            }
+        }
     }
 
     @Override

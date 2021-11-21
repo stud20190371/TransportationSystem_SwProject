@@ -3,6 +3,7 @@ package authentication;
 import java.util.HashMap;
 
 import database.SystemAdmin;
+import exceptions.*;
 import user.User;
 
 public class AdminAuthValidator implements AuthenticationValidator {
@@ -35,11 +36,11 @@ public class AdminAuthValidator implements AuthenticationValidator {
         User user  = isUsernameExist(username);
 
         if(user == null){
-            throw new Exception("There's no an admin with this username!");
+            throw new UsernameNotExistException("There's no an admin with this username!");
         }
 
         if(!isValidPassword(user, password)){
-            throw new Exception("This password is incorrect!");
+            throw new IncorrectPasswordException("This password is incorrect!");
         }
 
         return user;

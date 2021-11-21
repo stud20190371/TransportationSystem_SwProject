@@ -11,7 +11,7 @@ public class Rate {
     private float rate;
     private Date date;
 
-    Rate(Rater rater, Rateable rated, float rate){
+    public Rate(Rater rater, Rateable rated, float rate){
         this.rater = rater;
         this.rated = rated;
         this.rate = rate;

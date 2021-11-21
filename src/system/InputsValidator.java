@@ -25,7 +25,7 @@ public class InputsValidator {
 
     private void checkEmailValidation(String email) throws Exception{
     	
-    	if(email == null)
+    	if(email == null || email.trim().equals(""))
     		return ;
     	
     	String regexEmail = "^[a-zA-Z0-9_+&*-]+(?:\\."+
