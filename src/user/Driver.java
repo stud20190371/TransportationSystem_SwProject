@@ -1,5 +1,6 @@
 package user;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,10 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         }
     }
 
+    public int searchArea(String areaName){
+        return this.favoriteAreas.indexOf(areaName);
+    }
+
     public void removeArea(String area){
         this.favoriteAreas.remove(area);
     }
@@ -67,24 +72,18 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
     
     @Override
-    public void removeRate(Rate rate) {
-        
-    }
-
-    @Override
-    public void updateRate(Rate rate, float newRate) {
-        
-    }
-
-    @Override
-    public float ratingsAvg() {
+    public String ratingsAvg() {
         float ratingsAvg = 0;
+
+        if(this.rates.size() <= 0){
+            return "There're no ratings";
+        }
 
         for(Rate rate: this.rates){
             ratingsAvg += rate.getRate();
         }
 
-        return (float) ratingsAvg/this.rates.size();
+        return "Average ratings: " + (new DecimalFormat("#.##")).format(((float) ratingsAvg/this.rates.size())) + " (" + this.rates.size() + ")";
     }
 
     @Override
@@ -113,13 +112,8 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
-    public void deleteOffer(RideRequest request, Offer offer) {
-        
-    }
-
-    @Override
-    public void updateOffer(RideRequest request, Offer offer, float newPrice) {
-        
+    public String getOfferorName() {
+        return super.getUserInfo().getUsername();
     }
 
     @Override
@@ -128,7 +122,21 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
-    public void deleteNotification(String notification) {
-        this.notifications.remove(notification);
+    public ArrayList<String> getNotifications() {
+        return this.notifications;
+    }
+    
+    @Override
+    public String toString() {
+        return 
+            "\n{\n" +
+            " id: " + super.getUserInfo().getId() + "\n" + 
+            " username: " + super.getUserInfo().getUsername() + "\n" + 
+            " email: " + super.getUserInfo().getEmail() + "\n" + 
+            " mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
+            " national id: " + nationalID + "\n" + 
+            " driving license: " + drivingLicence + "\n" + 
+            " password: " + super.getUserInfo().getPassword() + "\n" + 
+            "}\n";
     }
 }

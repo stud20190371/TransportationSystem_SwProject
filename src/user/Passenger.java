@@ -37,28 +37,30 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
-    public void deleteRate(Rateable rateable, Rate rate) {
-        rateable.removeRate(rate);
-    }
-
-    @Override
-    public void updateRate(Rateable rateable, Rate rate, float newRate) {
-        rateable.updateRate(rate, newRate);
-    }
-
-    @Override
-    public float getRatingsAvg(Rateable rateable) {
+    public String getRatingsAvg(Rateable rateable) {
         return rateable.ratingsAvg();
     }
 
     @Override
     public void requestRide(String source, String dest) {
+        RideRequest request = new RideRequest(
+            this,
+            source,
+            dest
+        );
 
+        super.sysDatabase.systemRideRequests().addRequest(request);
+        super.sysDatabase.notifyDrivers(request);
     }
 
     @Override
-    public void deleteRequest(RideRequest request) {
-        
+    public String getRequesterName() {
+        return super.getUserInfo().getUsername();
+    }
+
+    @Override
+    public String getRequesterId() {
+        return super.getUserInfo().getId();
     }
 
     @Override
@@ -67,7 +69,7 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
-    public void deleteNotification(String notification) {
-        this.notifications.remove(notification);
+    public ArrayList<String> getNotifications() {
+        return this.notifications;
     }
 }

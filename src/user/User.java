@@ -16,4 +16,16 @@ public abstract class User {
     public UserInfo getUserInfo(){
         return this.userInfo;
     }
+
+    @Override
+    public String toString() {
+        return 
+            "\n{\n" +
+            " id: " + userInfo.getId() + "\n" + 
+            " username: " + userInfo.getUsername() + "\n" + 
+            " email: " + userInfo.getEmail() + "\n" + 
+            " mobile number: " + userInfo.getMobileNumber() + "\n" + 
+            " password: " + userInfo.getPassword() + "\n" + 
+            "}\n";
+    }
 }
