@@ -1,26 +1,15 @@
 package authentication;
 
-public class AuthenticationValidator {
+import java.util.HashMap;
+import user.User;
+
+public interface AuthenticationValidator {
     
-    private boolean isUsernameExist(String username){
-        return false;
-    }
+    public User isUsernameExist(String username);
 
-    private boolean isEmailExist(String email){
-        return false;
-    }
+    public boolean isValidPassword(User user, String password);
 
-    private boolean isPhoneNumberExist(String number){
-        return false;
-    }
+    public User signupValidation(HashMap<String, String> userInfo) throws Exception;
 
-    private boolean isValidPassword(String password){
-        return false;
-    }
-
-    public void signupValidation(){
-    }
-
-    public void loginValidation(){
-    }
+    public User loginValidation(String username, String password) throws Exception;
 }

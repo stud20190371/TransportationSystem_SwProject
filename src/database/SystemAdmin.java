@@ -15,6 +15,10 @@ public class SystemAdmin {
 
         return sysAdminInstance;
     }
+
+    public Admin getAdmin(){
+        return this.admin;
+    }
     
     public void setAdmin(Admin admin){
         this.admin = admin;

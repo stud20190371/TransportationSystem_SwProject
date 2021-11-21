@@ -13,9 +13,11 @@ import rideRequest.RideRequest;
 public class Passenger extends User implements Suspendable, Rater, RideRequester, Notifiable{
     private boolean suspensionState = false;
     private ArrayList<String> notifications;
+    private static int passengersCount = 0;
 
-    Passenger(String id, String username, String mobileNum, String email, String password){
-        super(id, username, mobileNum, email, password);
+
+    public Passenger(String username, String mobileNum, String email, String password){
+        super(("passenger"+(++passengersCount)), username, mobileNum, email, password);
         this.notifications = new ArrayList<>();
     }
 

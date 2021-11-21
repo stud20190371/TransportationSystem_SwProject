@@ -8,7 +8,9 @@ public class SystemPassengers {
     private ArrayList<Passenger> passengers;
     private static SystemPassengers sysPassengersInstance = null;
 
-    private SystemPassengers(){}
+    private SystemPassengers(){
+        passengers = new ArrayList<>();
+    }
 
     public static SystemPassengers createInstance(){
         if(sysPassengersInstance == null){
@@ -16,6 +18,10 @@ public class SystemPassengers {
         }
 
         return sysPassengersInstance;
+    }
+
+    public ArrayList<Passenger> getPassengers(){
+        return this.passengers;
     }
     
     public void addPassenger(Passenger passenger){
