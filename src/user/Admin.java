@@ -9,10 +9,10 @@ import interfaces.Verifier;
 
 public class Admin extends User implements Verifier, Suspender {
     private ArrayList<Verifiable> verificationRequests;
+    private static int adminsCount = 0;
     
-    Admin(String id, String username, String mobileNum, String email, String password){
-        super(id, username, mobileNum, email, password);
-
+    public Admin(String username, String mobileNum, String email, String password){
+        super(("admin"+(++adminsCount)), username, mobileNum, email, password);
         this.verificationRequests = new ArrayList<>();
     }
 

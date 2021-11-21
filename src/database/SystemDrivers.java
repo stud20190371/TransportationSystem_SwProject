@@ -8,7 +8,9 @@ public class SystemDrivers {
     private ArrayList<Driver> drivers;
     private static SystemDrivers sysDriversInstance = null;
 
-    private SystemDrivers(){}
+    private SystemDrivers(){
+        drivers = new ArrayList<>();
+    }
 
     public static SystemDrivers createInstance(){
         if(sysDriversInstance == null){
@@ -16,6 +18,10 @@ public class SystemDrivers {
         }
 
         return sysDriversInstance;
+    }
+
+    public ArrayList<Driver> getDrivers(){
+        return this.drivers;
     }
     
     public void addDriver(Driver driver){

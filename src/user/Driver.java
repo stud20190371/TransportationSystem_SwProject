@@ -20,9 +20,10 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     private ArrayList<String> favoriteAreas;
     private ArrayList<Rate> rates;
     private ArrayList<String> notifications;
+    private static int driversCount = 0;
     
-    Driver(String id, String username, String mobileNum, String email, String password, String drivingLicence, String nationalID){
-        super(id, username, mobileNum, email, password);
+    public Driver(String username, String mobileNum, String email, String password, String drivingLicence, String nationalID){
+        super(("driver"+(++driversCount)), username, mobileNum, email, password);
         this.drivingLicence = drivingLicence;
         this.nationalID = nationalID;
         this.favoriteAreas = new ArrayList<>();

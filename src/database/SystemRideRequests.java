@@ -20,6 +20,10 @@ public class SystemRideRequests {
         return sysRideRequestsInstance;
     }
 
+    public ArrayList<RideRequest> getRideRequests(){
+        return this.rideRequests;
+    }
+
     public void addRequest(RideRequest request){
         this.rideRequests.add(request);
     }

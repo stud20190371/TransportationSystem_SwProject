@@ -112,7 +112,7 @@ public class InputsValidator {
 			
     }
 
-    public void checkValidation(String fieldName, String userInput){
+    public void checkValidation(String fieldName, String userInput) throws Exception{
         if(fieldName.equals("username")){
             checkUsernameValidation(userInput);
         }else if(fieldName.equals("mobile_number")){

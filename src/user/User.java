@@ -2,7 +2,7 @@ package user;
 
 import database.SystemDatabase;
 
-public class User {
+public abstract class User {
     private UserInfo userInfo;
     protected SystemDatabase sysDatabase;
 
