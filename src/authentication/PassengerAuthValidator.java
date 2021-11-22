@@ -35,6 +35,8 @@ public class PassengerAuthValidator implements AuthenticationValidator {
 
             if(
                 !userInfo.get("email").equals("") &&
+                userInfo.get("email") != null &&
+                passenger.getUserInfo().getEmail() != null &&
                 (passenger.getUserInfo().getEmail()).equals(userInfo.get("email"))
             ){
                 throw new EmailExistException("There's already a passenger with this email!");

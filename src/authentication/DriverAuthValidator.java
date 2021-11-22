@@ -37,6 +37,8 @@ public class DriverAuthValidator implements AuthenticationValidator {
 
             if(
                 !userInfo.get("email").equals("") &&
+                userInfo.get("email") != null &&
+                driver.getUserInfo().getEmail() != null &&
                 (driver.getUserInfo().getEmail()).equals(userInfo.get("email"))
             ){
                 throw new EmailExistException("There's already a driver with this email!");

@@ -274,6 +274,7 @@ public class AuthSection {
                 }else if(user instanceof Passenger){
                     PassengerSection.displayPassengerBoard();
                 }
+
             }catch (NotVerifiedUserException ex){
                 displayErrorMsg(ex.getMessage());
             }catch (UsernameExistException ex){
@@ -285,6 +286,8 @@ public class AuthSection {
             }catch(Exception ex){
                 displayErrorMsg(ex.getMessage() + ", please try again");
             }
+
+            break;
         }
     }
     
@@ -305,6 +308,7 @@ public class AuthSection {
                 }else if(user instanceof Passenger){
                     PassengerSection.displayPassengerBoard();
                 }
+
             }catch (NotVerifiedUserException ex){
                 displayErrorMsg(ex.getMessage());
             }catch (SuspendedUserException ex){
@@ -316,6 +320,8 @@ public class AuthSection {
             }catch(Exception ex){
                 displayErrorMsg(ex.getMessage() + ", please try again");
             }
+            
+            break;
         }
     }
 
