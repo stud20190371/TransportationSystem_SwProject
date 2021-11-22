@@ -20,6 +20,10 @@ public class Admin extends User implements Verifier, Suspender {
         this.verificationRequests.add(verifiable);
     }
 
+    public ArrayList<Verifiable> getVerificationRequests(){
+        return this.verificationRequests;
+    }
+
     @Override
     public void verify(Verifiable verifiable) {
         verifiable.changeVerificationState(true);
