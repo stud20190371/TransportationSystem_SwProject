@@ -12,7 +12,7 @@ public class TransportationSystem {
             "12345678"
         );
 
-        CommonSection.sysDatabase.systemAdmin().setAdmin(systemAdmin);
+        CommonSection.sysDatabase.setSystemAdmin(systemAdmin);
 
         AuthSection.displayAuthMenu(true);
     }

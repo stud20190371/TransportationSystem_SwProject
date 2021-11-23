@@ -49,7 +49,7 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
             dest
         );
 
-        super.sysDatabase.systemRideRequests().addRequest(request);
+        super.sysDatabase.addRideRequest(request);
         super.sysDatabase.notifyDrivers(request);
     }
 

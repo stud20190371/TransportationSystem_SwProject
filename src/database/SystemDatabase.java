@@ -32,25 +32,13 @@ public class SystemDatabase implements Notifier{
 
         return sysDatabaseInstance;
     }
-
-    public SystemAdmin systemAdmin(){
-        return systemAdmin;
-    }
-
-    public SystemDrivers systemDrivers(){
-        return systemDrivers;
-    }
-
-    public SystemPassengers systemPassengers(){
-        return systemPassengers;
-    }
-
-    public SystemRideRequests systemRideRequests(){
-        return systemRideRequests;
-    }
     
     public Admin getSystemAdmin(){
         return this.systemAdmin.getAdmin();
+    }
+
+    public void setSystemAdmin(Admin admin){
+        this.systemAdmin.setAdmin(admin);
     }
 
     public ArrayList<Driver> getSystemDrivers(){
@@ -63,6 +51,10 @@ public class SystemDatabase implements Notifier{
 
     public ArrayList<RideRequest> getSystemRideRequests(){
         return this.systemRideRequests.getRideRequests();
+    }
+
+    public void addRideRequest(RideRequest request){
+        this.systemRideRequests.addRequest(request);
     }
 
     public ArrayList<RideRequest> getRequesterRequests(RideRequester requester){
