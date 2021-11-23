@@ -8,10 +8,18 @@ public class Offer {
     private float price;
     private static int offersCount = 0;
 
-    Offer(Offeror offeror, float price){
+    public Offer(Offeror offeror, float price){
         this.id = ("request"+(++offersCount));
         this.offeror = offeror;
         this.price = price;
+    }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public String getOfferorName(){
+        return offeror.getOfferorName();
     }
 
     public float getPrice(){
@@ -24,10 +32,8 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "\n{\n" +
-                " id: " + id + "\n" +
-                " offeror: " + offeror.getOfferorName() + "\n" + 
-                " price: " + price + "\n" + 
-                "}\n";
+        return 
+                "\nofferor: " + offeror.getOfferorName() + "\n" + 
+                "price: " + price + "\n"; 
     }
 }

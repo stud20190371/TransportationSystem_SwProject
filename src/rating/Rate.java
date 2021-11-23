@@ -18,6 +18,14 @@ public class Rate {
         this.date = new Date();
     }
 
+    public String getRaterName(){
+        return rater.getRaterName();
+    }
+
+    public String getRateableName(){
+        return rated.getRateableName();
+    }
+
     public void setRate(float rate){
         if(rate >=1 && rate <= 5){
             this.rate = rate;
@@ -30,5 +38,12 @@ public class Rate {
 
     public Date getDate(){
         return this.date;
+    }
+
+    @Override
+    public String toString() {
+        return
+            "\nRater: " + getRaterName() + "\n" +
+            "Rate: " + rate + "\n";
     }
 }

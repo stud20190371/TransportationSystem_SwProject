@@ -42,6 +42,11 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
+    public String getRaterName() {
+        return super.getUserInfo().getUsername();
+    }
+
+    @Override
     public void requestRide(String source, String dest) {
         RideRequest request = new RideRequest(
             this,

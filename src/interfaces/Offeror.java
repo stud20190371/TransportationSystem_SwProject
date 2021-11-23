@@ -1,9 +1,8 @@
 package interfaces;
 
-import rideRequest.Offer;
 import rideRequest.RideRequest;
 
 public interface Offeror {
-    void offer(RideRequest request, Offer offer);
+    void offer(RideRequest request, float price);
     String getOfferorName();
 }

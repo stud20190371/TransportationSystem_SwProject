@@ -28,11 +28,4 @@ public class SystemRideRequests {
         this.rideRequests.add(request);
     }
 
-    public void updateRequest(RideRequest request, String source, String dest){
-
-    }
-
-    public void deleteRequest(RideRequest request){
-        this.rideRequests.remove(request);
-    }
 }

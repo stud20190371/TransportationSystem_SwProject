@@ -2,16 +2,10 @@ package user;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import interfaces.Notifiable;
-import interfaces.Offeror;
-import interfaces.Rateable;
-import interfaces.Suspendable;
-import interfaces.Verifiable;
+import interfaces.*;
 import rating.Rate;
-import rideRequest.Offer;
-import rideRequest.RideRequest;
+import rideRequest.*;
 
 public class Driver extends User implements Verifiable, Rateable, Offeror, Suspendable, Notifiable{
     private String drivingLicence;
@@ -44,6 +38,8 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         return this.nationalID;
     }
 
+    public ArrayList<Rate> getRatings(){ return this.rates; }
+
     public void setNationID(String id){
         this.nationalID = id;
     }
@@ -52,18 +48,8 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         this.favoriteAreas.add(area);
     }
 
-    public void addAreas(List<String> areas){
-        for(String area: areas){
-            this.addArea(area);
-        }
-    }
-
     public int searchArea(String areaName){
         return this.favoriteAreas.indexOf(areaName);
-    }
-
-    public void removeArea(String area){
-        this.favoriteAreas.remove(area);
     }
 
     @Override
@@ -87,6 +73,11 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    public String getRateableName() {
+        return super.getUserInfo().getUsername();
+    }
+
+    @Override
     public void changeVerificationState(boolean state) {
         this.verified = state;
     }
@@ -107,8 +98,11 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
-    public void offer(RideRequest request, Offer offer) {
-        
+    public void offer(RideRequest request, float price) {
+        Offer offer = new Offer(this, price);
+        request.addOffer(offer);
+
+        super.sysDatabase.notifyPassenger(((Passenger)request.getRequester()), offer);
     }
 
     @Override
@@ -126,17 +120,18 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         return this.notifications;
     }
     
+    public ArrayList<String> getFavoriteAreas(){
+    	return this.favoriteAreas;
+    }
+    
     @Override
     public String toString() {
         return 
-            "\n{\n" +
-            " id: " + super.getUserInfo().getId() + "\n" + 
-            " username: " + super.getUserInfo().getUsername() + "\n" + 
-            " email: " + super.getUserInfo().getEmail() + "\n" + 
-            " mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
-            " national id: " + nationalID + "\n" + 
-            " driving license: " + drivingLicence + "\n" + 
-            " password: " + super.getUserInfo().getPassword() + "\n" + 
-            "}\n";
+            "\nusername: " + super.getUserInfo().getUsername() + "\n" + 
+            (super.getUserInfo().getEmail() != null ? ("email: " + super.getUserInfo().getEmail() + "\n") : "") +
+            "mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
+            "national id: " + nationalID + "\n" + 
+            "driving license: " + drivingLicence + "\n" +
+            (rates.size() > 0 ? (ratingsAvg() + "\n") : "");
     }
 }

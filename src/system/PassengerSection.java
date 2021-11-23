@@ -2,6 +2,7 @@ package system;
 
 import java.util.ArrayList;
 
+import enums.Board;
 import interfaces.*;
 import rating.Rate;
 import rideRequest.*;
@@ -9,9 +10,8 @@ import user.*;
 
 public class PassengerSection {
     static void displayPassengerBoard(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
+
         System.out.println("1- Request a ride");
         System.out.println("2- Display notifications (" + ((Passenger) CommonSection.authenticatedUser).getNotifications().size() + ")");
         System.out.println("3- Display drivers (rate and get avg rating)");
@@ -20,8 +20,7 @@ public class PassengerSection {
         System.out.println("6- Exit");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> requestRide();
@@ -30,17 +29,13 @@ public class PassengerSection {
                 case 4 -> displayRequesterRequests(((Passenger) CommonSection.authenticatedUser));
                 case 5 -> AuthSection.performLogout();
                 case 6 -> System.exit(0);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
 
     private static void requestRide(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
+        CommonSection.clearAll(true);
 
         String source, dest;
         while(true){
@@ -72,7 +67,7 @@ public class PassengerSection {
     }
 
     private static void rateDriver(Rater rater, Rateable ratable){
-        CommonSection.clearScanner();      
+        CommonSection.clearAll(true);      
         boolean isInvalidRate = true;
 
         while(isInvalidRate){
@@ -90,54 +85,28 @@ public class PassengerSection {
         }
 
         displayDriversAndRate(rater);
-
-        CommonSection.isInvalidChoose = false;
-        CommonSection.userChoose = CommonSection.scan.nextInt();
     }
 
     private static void getDriverAvgRating(Rater rater, Rateable ratable){
+        CommonSection.clearAll(true);
         System.out.println(ratable.ratingsAvg());
 
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(false);
 
         System.out.println("\n1- Back");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> displayDriversAndRate(rater);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
-            }
-        }
-    }
-
-    private static void backToPassengerBoard(){
-        System.out.println("\n1- back");
-
-        while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
-
-            switch(CommonSection.userChoose){
-                case 1 -> displayPassengerBoard();
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
 
     private static void displayDriversAndRate(Rater rater){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
 
         ArrayList<Driver> drivers = CommonSection.sysDatabase.getSystemDrivers();
 
@@ -152,8 +121,7 @@ public class PassengerSection {
             System.out.println("3- back");
 
             while(CommonSection.isInvalidChoose){
-                CommonSection.isInvalidChoose = false;
-                CommonSection.userChoose = CommonSection.scan.nextInt();
+                CommonSection.getUserChoose();
     
                 switch(CommonSection.userChoose){
                     case 1, 2 -> {
@@ -179,22 +147,17 @@ public class PassengerSection {
                         }
                     }
                     case 3 -> displayPassengerBoard();
-                    default -> {
-                        System.out.println("Invalid Choose!");
-                        CommonSection.isInvalidChoose = true; 
-                    }
+                    default -> CommonSection.switchDefaultStatement();
                 }
             }
         }else{
             System.out.println("There're no drivers!");
-            backToPassengerBoard();
+            CommonSection.backToBoard(Board.PASSENGER_BOARD);
         }
     }
 
     private static void displayRequestOffer(RideRequester requester, RideRequest request){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
         
         ArrayList<Offer> offers = request.getOffers();
 
@@ -210,23 +173,17 @@ public class PassengerSection {
         System.out.println("\n1- back");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> displayRequesterRequests(requester);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
 
     private static void displayRequesterRequests(RideRequester requester){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
 
         ArrayList<RideRequest> requests = CommonSection.sysDatabase.getRequesterRequests(requester);
 
@@ -240,8 +197,7 @@ public class PassengerSection {
             System.out.println("2- Back");
 
             while(CommonSection.isInvalidChoose){
-                CommonSection.isInvalidChoose = false;
-                CommonSection.userChoose = CommonSection.scan.nextInt();
+                CommonSection.getUserChoose();
 
                 switch(CommonSection.userChoose){
                     case 1 -> {
@@ -261,16 +217,13 @@ public class PassengerSection {
                         }
                     }
                     case 2 -> displayPassengerBoard();
-                    default -> {
-                        System.out.println("Invalid Choose!");
-                        CommonSection.isInvalidChoose = true; 
-                    }
+                    default -> CommonSection.switchDefaultStatement();
                 }
             }
 
         }else{
             System.out.println("There're no requests!");
-            backToPassengerBoard();
+            CommonSection.backToBoard(Board.PASSENGER_BOARD);
         }
     }
     

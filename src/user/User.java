@@ -20,12 +20,8 @@ public abstract class User {
     @Override
     public String toString() {
         return 
-            "\n{\n" +
-            " id: " + userInfo.getId() + "\n" + 
-            " username: " + userInfo.getUsername() + "\n" + 
-            " email: " + userInfo.getEmail() + "\n" + 
-            " mobile number: " + userInfo.getMobileNumber() + "\n" + 
-            " password: " + userInfo.getPassword() + "\n" + 
-            "}\n";
+            "\nusername: " + userInfo.getUsername() + "\n" + 
+            (userInfo.getEmail() != null ? ("email: " + userInfo.getEmail() + "\n") : "") +
+            "mobile number: " + userInfo.getMobileNumber() + "\n";
     }
 }

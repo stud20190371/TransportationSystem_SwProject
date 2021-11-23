@@ -5,8 +5,10 @@ import java.util.Scanner;
 
 import authentication.Authenticator;
 import database.SystemDatabase;
+import enums.Board;
 import interfaces.Notifiable;
 import user.*;
+
 
 public class CommonSection {
     static User authenticatedUser;
@@ -30,6 +32,49 @@ public class CommonSection {
         scan = new Scanner(System.in);
     }
 
+    static void clearAll(boolean clearConsole){
+        if(clearConsole){
+            clearConsole();
+        }
+        clearScanner();
+        isInvalidChoose = true;
+    }
+
+    static void switchDefaultStatement(){
+        System.out.println("Invalid Choose!");
+        isInvalidChoose = true; 
+    }
+
+    static void getUserChoose(){
+        isInvalidChoose = false;
+        userChoose = scan.nextInt();
+    }
+
+    static void backToBoard(Board board){
+        System.out.println("\n1- back");
+
+        while(isInvalidChoose){
+            isInvalidChoose = false;
+            userChoose = scan.nextInt();
+
+            switch(userChoose){
+                case 1 -> {
+                    if(board.equals(Board.ADMIN_BOARD)){
+                        AdminSection.displayAdminBoard();
+                    }else if(board.equals(Board.DRIVER_BOARD)){
+                        DriverSection.displayDriverBoard();
+                    }else if(board.equals(Board.PASSENGER_BOARD)){
+                        PassengerSection.displayPassengerBoard();
+                    }
+                }
+                default -> {
+                    System.out.println("Invalid Choose!");
+                    isInvalidChoose = true; 
+                }
+            }
+        }
+    }
+
     static void displayNotification(Notifiable notifiable){
         clearConsole();
 
@@ -44,28 +89,12 @@ public class CommonSection {
             System.out.println("There're no notifications");
         }
 
-        clearScanner();
-        isInvalidChoose = true;
+        clearAll(false);
 
-        System.out.println("\n1- Back");
-
-        while(isInvalidChoose){
-            isInvalidChoose = false;
-            userChoose = scan.nextInt();
-
-            switch(userChoose){
-                case 1 -> {
-                    if(notifiable instanceof Driver){
-                        DriverSection.displayDriverBoard();
-                    }else if(notifiable instanceof Passenger){
-                        PassengerSection.displayPassengerBoard();
-                    }
-                }
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    isInvalidChoose = true; 
-                }
-            }
+        if(notifiable instanceof Driver){
+            backToBoard(Board.DRIVER_BOARD);
+        }else if(notifiable instanceof Passenger){
+            backToBoard(Board.PASSENGER_BOARD);
         }
     }
 }

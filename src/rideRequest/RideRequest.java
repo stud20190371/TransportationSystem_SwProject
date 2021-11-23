@@ -20,6 +20,14 @@ public class RideRequest {
         this.dest = dest;
         this.offers = new ArrayList<>();
     }
+
+    public String getId(){
+        return this.id;
+    }
+
+    public RideRequester getRequester(){
+        return this.requester;
+    }
     
     public String getSourceName(){
         return this.source;
@@ -41,25 +49,15 @@ public class RideRequest {
         this.offers.add(offer);
     }
 
-    public void deleteOffer(Offer offer){
-        this.offers.remove(offer);
-    }
-
-    public void updateOffer(Offer offer, float newPrice){
-    }
-
     public ArrayList<Offer> getOffers(){
         return this.offers;
     }
 
     @Override
     public String toString() {
-        return "\n{\n" +
-                " id: " + id + "\n" + 
-                " requester: " + requester.getRequesterName() + "\n" + 
-                " source: " + source + "\n" + 
-                " dest: " + dest + "\n" + 
-                " offers: " + offers + "\n" + 
-                "}\n";
+        return 
+                "\nrequester: " + requester.getRequesterName() + "\n" + 
+                "source: " + source + "\n" + 
+                "dest: " + dest + "\n";
     }
 }
