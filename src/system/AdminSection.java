@@ -13,7 +13,7 @@ public class AdminSection {
         
         System.out.println("1- Verify new drivers");
         System.out.println("2- Suspend users");
-        System.out.println("3- Suspend users");
+        System.out.println("3- Unsuspend users");
         System.out.println("4- Logout");
         System.out.println("5- Exit");
 
