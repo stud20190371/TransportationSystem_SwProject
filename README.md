@@ -1,3 +1,3 @@
 # Note (Please read this)
 
-# Run code on VS Code, because there's a function clear the console and this function work only on VS Code
+# Run code on VS Code, because there's a function clears the console and this function works only on VS Code
