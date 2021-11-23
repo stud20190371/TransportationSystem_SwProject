@@ -39,4 +39,11 @@ public class Rate {
     public Date getDate(){
         return this.date;
     }
+
+    @Override
+    public String toString() {
+        return
+            "\nRater: " + getRaterName() + "\n" +
+            "Rate: " + rate + "\n";
+    }
 }

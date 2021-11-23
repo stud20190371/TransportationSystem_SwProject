@@ -67,7 +67,7 @@ public class PassengerSection {
     }
 
     private static void rateDriver(Rater rater, Rateable ratable){
-        CommonSection.clearScanner();      
+        CommonSection.clearAll(true);      
         boolean isInvalidRate = true;
 
         while(isInvalidRate){
@@ -88,6 +88,7 @@ public class PassengerSection {
     }
 
     private static void getDriverAvgRating(Rater rater, Rateable ratable){
+        CommonSection.clearAll(true);
         System.out.println(ratable.ratingsAvg());
 
         CommonSection.clearAll(false);

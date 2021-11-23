@@ -3,6 +3,7 @@ package system;
 import java.util.ArrayList;
 
 import enums.Board;
+import rating.Rate;
 import rideRequest.RideRequest;
 import user.*;
 
@@ -13,8 +14,9 @@ public class DriverSection {
         System.out.println("1- Add favorite area");
         System.out.println("2- Display notifications (" + ((Driver) CommonSection.authenticatedUser).getNotifications().size() + ")");
         System.out.println("3- Display ride requests");
-        System.out.println("4- Logout");
-        System.out.println("5- Exit");
+        System.out.println("4- Display my ratings");
+        System.out.println("5- Logout");
+        System.out.println("6- Exit");
         
         while(CommonSection.isInvalidChoose){
             CommonSection.getUserChoose();
@@ -23,8 +25,9 @@ public class DriverSection {
                 case 1 -> addFavoriteArea();
                 case 2 -> CommonSection.displayNotification(((Driver) CommonSection.authenticatedUser));
                 case 3 -> displayRideRequests();
-                case 4 -> AuthSection.performLogout();
-                case 5 -> System.exit(0);
+                case 4 -> displayRatings();
+                case 5 -> AuthSection.performLogout();
+                case 6 -> System.exit(0);
                 default -> CommonSection.switchDefaultStatement();
             }
         }
@@ -119,5 +122,22 @@ public class DriverSection {
         }
 
         displayRideRequests();
+    }
+
+    private static void displayRatings(){
+        CommonSection.clearAll(true);
+        
+        ArrayList<Rate> ratings = ((Driver) CommonSection.authenticatedUser).getRatings();
+
+        if(ratings.size() > 0){
+            for(int i=0; i<ratings.size(); i++){
+                System.out.println("(" + (i+1) + ")");
+                System.out.println(ratings.get(i));
+            }
+        }else {
+            System.out.println("There're no ratings");
+        }
+
+        CommonSection.backToBoard(Board.DRIVER_BOARD);
     }
 }

@@ -38,6 +38,8 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         return this.nationalID;
     }
 
+    public ArrayList<Rate> getRatings(){ return this.rates; }
+
     public void setNationID(String id){
         this.nationalID = id;
     }
@@ -129,6 +131,7 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
             (super.getUserInfo().getEmail() != null ? ("email: " + super.getUserInfo().getEmail() + "\n") : "") +
             "mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
             "national id: " + nationalID + "\n" + 
-            "driving license: " + drivingLicence + "\n";
+            "driving license: " + drivingLicence + "\n" +
+            (rates.size() > 0 ? (ratingsAvg() + "\n") : "");
     }
 }

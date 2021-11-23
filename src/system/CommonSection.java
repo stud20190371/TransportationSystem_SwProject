@@ -33,7 +33,9 @@ public class CommonSection {
     }
 
     static void clearAll(boolean clearConsole){
-        clearConsole();
+        if(clearConsole){
+            clearConsole();
+        }
         clearScanner();
         isInvalidChoose = true;
     }
@@ -87,28 +89,12 @@ public class CommonSection {
             System.out.println("There're no notifications");
         }
 
-        clearScanner();
-        isInvalidChoose = true;
+        clearAll(false);
 
-        System.out.println("\n1- Back");
-
-        while(isInvalidChoose){
-            isInvalidChoose = false;
-            userChoose = scan.nextInt();
-
-            switch(userChoose){
-                case 1 -> {
-                    if(notifiable instanceof Driver){
-                        DriverSection.displayDriverBoard();
-                    }else if(notifiable instanceof Passenger){
-                        PassengerSection.displayPassengerBoard();
-                    }
-                }
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    isInvalidChoose = true; 
-                }
-            }
+        if(notifiable instanceof Driver){
+            backToBoard(Board.DRIVER_BOARD);
+        }else if(notifiable instanceof Passenger){
+            backToBoard(Board.PASSENGER_BOARD);
         }
     }
 }

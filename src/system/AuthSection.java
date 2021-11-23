@@ -213,7 +213,7 @@ public class AuthSection {
         }
     }
 
-    static void displayInvalidCredentialsError(String msg, String fieldName, HashMap<String, String> userInfo){
+    static boolean displayInvalidCredentialsError(String msg, String fieldName, HashMap<String, String> userInfo){
         System.out.println(msg);
         CommonSection.clearAll(false);
         System.out.println("1- Reinput Field");
@@ -223,14 +223,20 @@ public class AuthSection {
             CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
-                case 1 -> reinputField(fieldName, userInfo);
+                case 1 -> {
+                    reinputField(fieldName, userInfo);
+                    return true;
+                }
                 case 2 -> displayAuthMenu(true);
                 default -> CommonSection.switchDefaultStatement();
             }
         }
+
+        return false;
     }
 
     static void performSignup(UserType userType){
+        boolean isFieldReinputed = false;
         CommonSection.clearConsole();
 
         HashMap<String, String> userInfo = displaySignupFields(userType);
@@ -249,20 +255,23 @@ public class AuthSection {
             }catch (NotVerifiedUserException ex){
                 displayErrorMsg(ex.getMessage());
             }catch (UsernameExistException ex){
-                displayInvalidCredentialsError(ex.getMessage(), "username", userInfo);
+                isFieldReinputed = displayInvalidCredentialsError(ex.getMessage(), "username", userInfo);
             }catch (EmailExistException ex){
-                displayInvalidCredentialsError(ex.getMessage(), "email", userInfo);
+                isFieldReinputed = displayInvalidCredentialsError(ex.getMessage(), "email", userInfo);
             }catch (MobileNumberExistException ex){
-                displayInvalidCredentialsError(ex.getMessage(), "mobile_number", userInfo);
+                isFieldReinputed = displayInvalidCredentialsError(ex.getMessage(), "mobile_number", userInfo);
             }catch(Exception ex){
                 displayErrorMsg(ex.getMessage() + ", please try again");
             }
 
-            break;
+            if(!isFieldReinputed){
+                break;
+            }
         }
     }
     
     static void performLogin(UserType userType){
+        boolean isFieldReinputed = false;
         CommonSection.clearConsole();
 
         HashMap<String, String> userInfo = displayLoginFields();
@@ -285,14 +294,16 @@ public class AuthSection {
             }catch (SuspendedUserException ex){
                 displayErrorMsg(ex.getMessage());
             }catch (UsernameNotExistException ex){
-                displayInvalidCredentialsError(ex.getMessage(), "username", userInfo);
+                isFieldReinputed = displayInvalidCredentialsError(ex.getMessage(), "username", userInfo);
             }catch (IncorrectPasswordException ex){
-                displayInvalidCredentialsError(ex.getMessage(), "password", userInfo);
+                isFieldReinputed = displayInvalidCredentialsError(ex.getMessage(), "password", userInfo);
             }catch(Exception ex){
                 displayErrorMsg(ex.getMessage() + ", please try again");
             }
             
-            break;
+            if(!isFieldReinputed){
+                break;
+            }
         }
     }
 
