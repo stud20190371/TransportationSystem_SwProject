@@ -10,37 +10,26 @@ import user.*;
 
 public class AuthSection {
     static void displayAuthMenu(boolean clr){
-        if(clr){
-            CommonSection.clearConsole();
-        }
-
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(clr);
 
         System.out.println("1- Signup");
         System.out.println("2- Login");
         System.out.println("3- Exit");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> displaySignupMenu();
                 case 2 -> displayLoginMenu();
                 case 3 -> System.exit(0);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
 
     static void displaySignupMenu(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
 
         System.out.println("1- Signup as a driver");
         System.out.println("2- Signup as a passenger");
@@ -48,8 +37,7 @@ public class AuthSection {
         System.out.println("4- Exit");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> {
@@ -62,18 +50,14 @@ public class AuthSection {
                 }
                 case 3 -> displayAuthMenu(true);
                 case 4 -> System.exit(0);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
 
     static void displayLoginMenu(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
+
         System.out.println("1- Login as an admin");
         System.out.println("2- Login as a driver");
         System.out.println("3- Login as a passenger");
@@ -81,8 +65,7 @@ public class AuthSection {
         System.out.println("5- Exit");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> {
@@ -99,10 +82,7 @@ public class AuthSection {
                 }
                 case 4 -> displayAuthMenu(true);
                 case 5 -> System.exit(0);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
@@ -235,26 +215,17 @@ public class AuthSection {
 
     static void displayInvalidCredentialsError(String msg, String fieldName, HashMap<String, String> userInfo){
         System.out.println(msg);
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(false);
         System.out.println("1- Reinput Field");
         System.out.println("2- Back home screen");
         
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
-                case 1 -> {
-                    reinputField(fieldName, userInfo);
-                }
-                case 2 -> {
-                    displayAuthMenu(true);
-                }
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                case 1 -> reinputField(fieldName, userInfo);
+                case 2 -> displayAuthMenu(true);
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }

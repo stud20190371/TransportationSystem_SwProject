@@ -4,13 +4,12 @@ import user.Admin;
 
 import java.util.ArrayList;
 
+import enums.Board;
 import interfaces.*;
 
 public class AdminSection {
     static void displayAdminBoard(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
         
         System.out.println("1- Verify new drivers");
         System.out.println("2- Suspend users");
@@ -19,8 +18,7 @@ public class AdminSection {
         System.out.println("5- Exit");
 
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> verifyDrivers();
@@ -28,35 +26,13 @@ public class AdminSection {
                 case 3 -> suspendUsers(false);
                 case 4 -> AuthSection.performLogout();
                 case 5 -> System.exit(0);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
-            }
-        }
-    }
-
-    private static void backToAdminBoard(){
-        System.out.println("\n1- back");
-
-        while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
-
-            switch(CommonSection.userChoose){
-                case 1 -> displayAdminBoard();
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
 
     private static void verifyDrivers(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
 
         ArrayList<Verifiable> verRequests = ((Admin) CommonSection.authenticatedUser).getVerificationRequests();
 
@@ -70,8 +46,7 @@ public class AdminSection {
             System.out.println("2- Back");
 
             while(CommonSection.isInvalidChoose){
-                CommonSection.isInvalidChoose = false;
-                CommonSection.userChoose = CommonSection.scan.nextInt();
+                CommonSection.getUserChoose();
 
                 switch(CommonSection.userChoose){
                     case 1 -> {
@@ -93,22 +68,17 @@ public class AdminSection {
                         }
                     }
                     case 2 -> displayAdminBoard();
-                    default -> {
-                        System.out.println("Invalid Choose!");
-                        CommonSection.isInvalidChoose = true; 
-                    }
+                    default -> CommonSection.switchDefaultStatement();
                 }
             }
         }else{
             System.out.println("There're no verification requests!");
-            backToAdminBoard();
+            CommonSection.backToBoard(Board.ADMIN_BOARD);
         }
     }
 
     private static void suspendUsers(boolean suspend){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
 
         ArrayList<Suspendable> users = new ArrayList<>();
 
@@ -143,8 +113,7 @@ public class AdminSection {
             System.out.println("2- Back");
 
             while(CommonSection.isInvalidChoose){
-                CommonSection.isInvalidChoose = false;
-                CommonSection.userChoose = CommonSection.scan.nextInt();
+                CommonSection.getUserChoose();
 
                 switch(CommonSection.userChoose){
                     case 1 -> {
@@ -165,10 +134,7 @@ public class AdminSection {
                         }
                     }
                     case 2 -> displayAdminBoard();
-                    default -> {
-                        System.out.println("Invalid Choose!");
-                        CommonSection.isInvalidChoose = true; 
-                    }
+                    default -> CommonSection.switchDefaultStatement();
                 }
             }
         }else{
@@ -178,7 +144,7 @@ public class AdminSection {
                 System.out.println("There're no users to unsuspend!");
             }
 
-            backToAdminBoard();
+            CommonSection.backToBoard(Board.ADMIN_BOARD);
         }
     }
 }

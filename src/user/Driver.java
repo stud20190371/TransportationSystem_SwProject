@@ -71,6 +71,11 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    public String getRateableName() {
+        return super.getUserInfo().getUsername();
+    }
+
+    @Override
     public void changeVerificationState(boolean state) {
         this.verified = state;
     }
@@ -120,14 +125,10 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     @Override
     public String toString() {
         return 
-            "\n{\n" +
-            " id: " + super.getUserInfo().getId() + "\n" + 
-            " username: " + super.getUserInfo().getUsername() + "\n" + 
-            " email: " + super.getUserInfo().getEmail() + "\n" + 
-            " mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
-            " national id: " + nationalID + "\n" + 
-            " driving license: " + drivingLicence + "\n" + 
-            " password: " + super.getUserInfo().getPassword() + "\n" + 
-            "}\n";
+            "\nusername: " + super.getUserInfo().getUsername() + "\n" + 
+            (super.getUserInfo().getEmail() != null ? ("email: " + super.getUserInfo().getEmail() + "\n") : "") +
+            "mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
+            "national id: " + nationalID + "\n" + 
+            "driving license: " + drivingLicence + "\n";
     }
 }

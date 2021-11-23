@@ -2,14 +2,14 @@ package system;
 
 import java.util.ArrayList;
 
+import enums.Board;
 import rideRequest.RideRequest;
 import user.*;
 
 public class DriverSection {
     static void displayDriverBoard(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
+        
         System.out.println("1- Add favorite area");
         System.out.println("2- Display notifications (" + ((Driver) CommonSection.authenticatedUser).getNotifications().size() + ")");
         System.out.println("3- Display ride requests");
@@ -17,8 +17,7 @@ public class DriverSection {
         System.out.println("5- Exit");
         
         while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
+            CommonSection.getUserChoose();
 
             switch(CommonSection.userChoose){
                 case 1 -> addFavoriteArea();
@@ -26,17 +25,13 @@ public class DriverSection {
                 case 3 -> displayRideRequests();
                 case 4 -> AuthSection.performLogout();
                 case 5 -> System.exit(0);
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
+                default -> CommonSection.switchDefaultStatement();
             }
         }
     }
     
     private static void addFavoriteArea() {
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
+        CommonSection.clearAll(true);
 
         String area = ""; 
         while(true){
@@ -54,27 +49,8 @@ public class DriverSection {
         displayDriverBoard();
     }
 
-    private static void backToDriverBoard(){
-        System.out.println("\n1- back");
-
-        while(CommonSection.isInvalidChoose){
-            CommonSection.isInvalidChoose = false;
-            CommonSection.userChoose = CommonSection.scan.nextInt();
-
-            switch(CommonSection.userChoose){
-                case 1 -> displayDriverBoard();
-                default -> {
-                    System.out.println("Invalid Choose!");
-                    CommonSection.isInvalidChoose = true; 
-                }
-            }
-        }
-    }
-
     private static void displayRideRequests(){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();
-        CommonSection.isInvalidChoose = true;
+        CommonSection.clearAll(true);
         
         ArrayList<String> favoriteArea = ((Driver) CommonSection.authenticatedUser).getFavoriteAreas();
         ArrayList<RideRequest> allRequests = CommonSection.sysDatabase.getSystemRideRequests();
@@ -96,8 +72,7 @@ public class DriverSection {
             System.out.println("2- Back");
 
             while(CommonSection.isInvalidChoose){
-                CommonSection.isInvalidChoose = false;
-                CommonSection.userChoose = CommonSection.scan.nextInt();
+                CommonSection.getUserChoose();
     
                 switch(CommonSection.userChoose){
                     case 1-> {
@@ -117,21 +92,17 @@ public class DriverSection {
                         }
                     }
                     case 2 -> displayDriverBoard();
-                    default -> {
-                        System.out.println("Invalid Choose!");
-                        CommonSection.isInvalidChoose = true; 
-                    }
+                    default -> CommonSection.switchDefaultStatement();
                 }
             }
         }else{
             System.out.println("There're no ride requests!");
-            backToDriverBoard();
+            CommonSection.backToBoard(Board.DRIVER_BOARD);
         }
     }
     
     private static void makeOffer(RideRequest request){
-        CommonSection.clearConsole();
-        CommonSection.clearScanner();      
+        CommonSection.clearAll(true);   
         boolean isInvalidPrice = true;
 
         while(isInvalidPrice){

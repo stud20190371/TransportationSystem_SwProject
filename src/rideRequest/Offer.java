@@ -14,6 +14,10 @@ public class Offer {
         this.price = price;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
     public String getOfferorName(){
         return offeror.getOfferorName();
     }
@@ -28,10 +32,8 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "\n{\n" +
-                " id: " + id + "\n" +
-                " offeror: " + offeror.getOfferorName() + "\n" + 
-                " price: " + price + "\n" + 
-                "}\n";
+        return 
+                "\nofferor: " + offeror.getOfferorName() + "\n" + 
+                "price: " + price + "\n"; 
     }
 }

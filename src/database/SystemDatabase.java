@@ -2,14 +2,9 @@ package database;
 
 import java.util.ArrayList;
 
-import interfaces.Notifiable;
-import interfaces.Notifier;
-import interfaces.RideRequester;
-import rideRequest.Offer;
-import rideRequest.RideRequest;
-import user.Admin;
-import user.Driver;
-import user.Passenger;
+import interfaces.*;
+import rideRequest.*;
+import user.*;
 
 public class SystemDatabase implements Notifier{
     private SystemAdmin systemAdmin;
