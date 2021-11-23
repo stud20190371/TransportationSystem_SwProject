@@ -20,6 +20,10 @@ public class RideRequest {
         this.dest = dest;
         this.offers = new ArrayList<>();
     }
+
+    public RideRequester getRequester(){
+        return this.requester;
+    }
     
     public String getSourceName(){
         return this.source;
@@ -59,7 +63,6 @@ public class RideRequest {
                 " requester: " + requester.getRequesterName() + "\n" + 
                 " source: " + source + "\n" + 
                 " dest: " + dest + "\n" + 
-                " offers: " + offers + "\n" + 
                 "}\n";
     }
 }

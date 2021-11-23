@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import interfaces.Notifiable;
 import interfaces.Notifier;
 import interfaces.RideRequester;
+import rideRequest.Offer;
 import rideRequest.RideRequest;
 import user.Admin;
 import user.Driver;
@@ -79,6 +80,14 @@ public class SystemDatabase implements Notifier{
             }
         }
     }
+
+    public void notifyPassenger(Passenger passenger, Offer offer){
+        String notification = "\nThere's an offer by (" + offer.getOfferorName() + ")\n" + 
+                            "Price: " + offer.getPrice() + "\n";
+
+        notify(passenger, notification);
+    }
+
 
     @Override
     public void notify(Notifiable notifiable, String notification) {

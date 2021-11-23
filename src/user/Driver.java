@@ -2,16 +2,10 @@ package user;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
-import interfaces.Notifiable;
-import interfaces.Offeror;
-import interfaces.Rateable;
-import interfaces.Suspendable;
-import interfaces.Verifiable;
+import interfaces.*;
 import rating.Rate;
-import rideRequest.Offer;
-import rideRequest.RideRequest;
+import rideRequest.*;
 
 public class Driver extends User implements Verifiable, Rateable, Offeror, Suspendable, Notifiable{
     private String drivingLicence;
@@ -52,18 +46,8 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         this.favoriteAreas.add(area);
     }
 
-    public void addAreas(List<String> areas){
-        for(String area: areas){
-            this.addArea(area);
-        }
-    }
-
     public int searchArea(String areaName){
         return this.favoriteAreas.indexOf(areaName);
-    }
-
-    public void removeArea(String area){
-        this.favoriteAreas.remove(area);
     }
 
     @Override
@@ -107,8 +91,11 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
-    public void offer(RideRequest request, Offer offer) {
-        
+    public void offer(RideRequest request, float price) {
+        Offer offer = new Offer(this, price);
+        request.addOffer(offer);
+
+        super.sysDatabase.notifyPassenger(((Passenger)request.getRequester()), offer);
     }
 
     @Override
@@ -124,6 +111,10 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     @Override
     public ArrayList<String> getNotifications() {
         return this.notifications;
+    }
+    
+    public ArrayList<String> getFavoriteAreas(){
+    	return this.favoriteAreas;
     }
     
     @Override

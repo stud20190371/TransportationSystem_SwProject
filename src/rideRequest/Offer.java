@@ -8,10 +8,14 @@ public class Offer {
     private float price;
     private static int offersCount = 0;
 
-    Offer(Offeror offeror, float price){
+    public Offer(Offeror offeror, float price){
         this.id = ("request"+(++offersCount));
         this.offeror = offeror;
         this.price = price;
+    }
+
+    public String getOfferorName(){
+        return offeror.getOfferorName();
     }
 
     public float getPrice(){
