@@ -24,6 +24,16 @@ public class SystemRideRequests {
         return this.rideRequests;
     }
 
+    public RideRequest getRideRequest(String id){
+        for(RideRequest req: rideRequests){
+            if(req.getId().equals(id)){
+                return req;
+            }
+        }
+
+        return null;
+    }
+
     public void addRequest(RideRequest request){
         this.rideRequests.add(request);
     }

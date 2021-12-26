@@ -2,6 +2,8 @@ package user;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class UserInfo {
     private String id;
     private String username;
@@ -47,6 +49,7 @@ public class UserInfo {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword(){
         return this.password;
     }

@@ -8,4 +8,5 @@ public interface Offeror {
     void handleRequest(RideRequest request);
     void stopHandlingRequest();
     boolean isHandlingRide();
+    RideRequest currentRide();
 }

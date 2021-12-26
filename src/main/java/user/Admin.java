@@ -36,6 +36,7 @@ public class Admin extends User implements Verifier, Suspender {
     @Override
     public void verify(Verifiable verifiable) {
         verifiable.changeVerificationState(true);
+        this.verificationRequests.remove(verifiable);
     }
 
     @Override

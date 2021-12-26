@@ -23,6 +23,16 @@ public class SystemDrivers {
     public ArrayList<Driver> getDrivers(){
         return this.drivers;
     }
+
+    public Driver getDriver(String id){
+        for(Driver d: drivers){
+            if(d.getUserInfo().getId().equals(id)){
+                return d;
+            }
+        }
+
+        return null;
+    }
     
     public void addDriver(Driver driver){
         this.drivers.add(driver);

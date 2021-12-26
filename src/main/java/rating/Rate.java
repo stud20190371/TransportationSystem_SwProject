@@ -43,7 +43,11 @@ public class Rate {
     @Override
     public String toString() {
         return
-            "\nRater: " + getRaterName() + "\n" +
-            "Rate: " + rate + "\n";
+            "\n{\n" + 
+                " rater: " + getRaterName() + "\n" +
+                " rated: " + getRateableName() + "\n" +
+                " rate: " + rate + "\n" + 
+                " date: " + date + "\n" + 
+            "}";
     }
 }

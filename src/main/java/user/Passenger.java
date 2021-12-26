@@ -3,6 +3,8 @@ package user;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import interfaces.Notifiable;
 import interfaces.Offerable;
 import interfaces.Rateable;
@@ -18,7 +20,6 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     private boolean suspensionState = false;
     private ArrayList<String> notifications;
     private RideRequest currentRequest;
-
     private ArrayList<RideRequest> requestsHistory;
 
     private static int passengersCount = 0;
@@ -41,16 +42,24 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
+    @JsonIgnore
+    public String getSuspendableId(){
+        return super.getUserInfo().getId();   
+    }
+
+    @Override
     public void rate(Rateable rateable, Rate rate) {
         rateable.addRate(rate);
     }
 
     @Override
+    @JsonIgnore
     public String getRatingsAvg(Rateable rateable) {
         return rateable.ratingsAvg();
     }
 
     @Override
+    @JsonIgnore
     public String getRaterName() {
         return super.getUserInfo().getUsername();
     }
@@ -76,21 +85,25 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
+    @JsonIgnore
     public String getRequesterName() {
         return super.getUserInfo().getUsername();
     }
 
     @Override
+    @JsonIgnore
     public String getRequesterId() {
         return super.getUserInfo().getId();
     }
 
     @Override
+    @JsonIgnore
     public Date getRequesterBirthdate() {
         return super.getUserInfo().getBirtdate();
     }
 
     @Override
+    @JsonIgnore
     public RideRequest getCurrentRequest() {
         return this.currentRequest;
     }
@@ -104,6 +117,7 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
+    @JsonIgnore
     public ArrayList<RideRequest> getRideRequestsHistory() {
         return this.requestsHistory;
     }
@@ -114,6 +128,7 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
+    @JsonIgnore
     public String getOfferableName() {
         return super.getUserInfo().getUsername();
     } 
@@ -124,9 +139,8 @@ public class Passenger extends User implements Suspendable, Rater, RideRequester
     }
 
     @Override
+    @JsonIgnore
     public ArrayList<String> getNotifications() {
         return this.notifications;
     }
-
-    
 }

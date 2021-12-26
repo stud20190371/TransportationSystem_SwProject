@@ -3,10 +3,12 @@ package common;
 import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 
+import enums.AuthFieldName;
+
 public class InputsValidator {
     private void checkUsernameValidation(String username) throws Exception{
     		
-		if(username.length() < 6) {
+		if(username == null || username.length() < 6) {
 			throw new Exception("invalid username");
 		}
 		
@@ -26,7 +28,7 @@ public class InputsValidator {
 
     private void checkEmailValidation(String email) throws Exception{
     	
-    	if(email == null || email.trim().equals(""))
+    	if(email == null)
     		return ;
     	
     	String regexEmail = "^[a-zA-Z0-9_+&*-]+(?:\\."+
@@ -42,7 +44,7 @@ public class InputsValidator {
 
     private void checkPhoneNumValidation(String phoneNumber) throws Exception{
 
-		if(phoneNumber.length() != 11) {
+		if(phoneNumber == null || phoneNumber.length() != 11) {
 			throw new Exception("invalid phone number");
 		}
 		
@@ -67,7 +69,7 @@ public class InputsValidator {
 
     private void checkPasswordValidation(String password) throws Exception{
     	
-		if(password.length() < 6) {
+		if(password == null || password.length() < 6) {
 			throw new Exception("invalid password");
 		}
 		
@@ -75,7 +77,7 @@ public class InputsValidator {
 
     private void checkNationalIdValidation(String id) throws Exception{
     	
-		if(id.length() != 14) {
+		if(id == null || id.length() != 14) {
 			throw new Exception("invalid National id");
 		}
 		
@@ -95,7 +97,7 @@ public class InputsValidator {
 
     private void checkLicenseValidation(String license) throws Exception{
     	
-		if(license.length() != 14) {
+		if(license == null || license.length() != 14) {
 			throw new Exception("invalid license");
 		}
 		
@@ -115,29 +117,29 @@ public class InputsValidator {
 
 	private void checkBirthdateValidation(String birthdate) throws Exception{
     	
-		if(birthdate.length() == 0) {
+		if(birthdate == null || birthdate.length() == 0) {
 			throw new Exception("Birthdate can't be empty");
 		}
 		
-		new SimpleDateFormat().parse(birthdate);
+		new SimpleDateFormat("dd/MM/yyyy").parse(birthdate);
 		
     }
 
-    public void checkValidation(String fieldName, String userInput) throws Exception{
-        if(fieldName.equals("username")){
+    public void checkValidation(AuthFieldName fieldName, String userInput) throws Exception{
+        if(fieldName.equals(AuthFieldName.USERNAME)){
             checkUsernameValidation(userInput);
-        }else if(fieldName.equals("mobile_number")){
+        }else if(fieldName.equals(AuthFieldName.MOBILE_NUMBER)){
             checkPhoneNumValidation(userInput);
-        }else if(fieldName.equals("email")){
+        }else if(fieldName.equals(AuthFieldName.EMAIL)){
             checkEmailValidation(userInput);
-        }else if(fieldName.equals("password")){
+        }else if(fieldName.equals(AuthFieldName.PASSWORD)){
             checkPasswordValidation(userInput);
-        }else if(fieldName.equals("national_id")){
-            checkNationalIdValidation(userInput);
-        }else if(fieldName.equals("driving_licence")){
-            checkLicenseValidation(userInput);
-        }else if(fieldName.equals("birthdate")){
+        }else if(fieldName.equals(AuthFieldName.BIRTHDATE)){
 			checkBirthdateValidation(userInput);
-		}
+		}else if(fieldName.equals(AuthFieldName.NATIONAL_ID)){
+            checkNationalIdValidation(userInput);
+        }else if(fieldName.equals(AuthFieldName.DRIVING_LICENCE)){
+            checkLicenseValidation(userInput);
+        }
     }
 }

@@ -2,6 +2,7 @@ package authentication;
 
 import java.util.HashMap;
 
+import enums.AuthFieldName;
 import user.User;
 
 public class Authenticator {
@@ -16,7 +17,7 @@ public class Authenticator {
         this.authValidator = authValidator;
     }
 
-    public User signup(HashMap<String, String> userInfo) throws Exception{
+    public User signup(HashMap<AuthFieldName, String> userInfo) throws Exception{
         User user = authValidator.signupValidation(userInfo);
         isAuthenticated = true;
         return user;

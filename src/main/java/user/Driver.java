@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import interfaces.*;
 import rating.Rate;
 import rideEvents.OfferEvent;
@@ -14,9 +16,10 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     private String nationalID;
     private boolean verified;
     private boolean suspensionState = false;
+
     private ArrayList<String> favoriteAreas;
     private ArrayList<Rate> rates;
-    private ArrayList<String> notifications;
+    private ArrayList<String> notifications; 
     private RideRequest currentRide;
     
     private static int driversCount = 0;
@@ -42,6 +45,7 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         return this.nationalID;
     }
 
+    @JsonIgnore
     public ArrayList<Rate> getRatings(){ 
         return this.rates; 
     }
@@ -58,8 +62,14 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
         return this.favoriteAreas.indexOf(areaName.toLowerCase());
     }
 
+    @JsonIgnore 
     public ArrayList<String> getFavoriteAreas(){
     	return this.favoriteAreas;
+    }
+
+    @JsonIgnore 
+    public ArrayList<RideRequest> getMatchedRideRequests(){
+        return super.sysDatabase.getMatchedRideRequestsForDriver(this);
     }
 
     @Override
@@ -73,11 +83,18 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    @JsonIgnore 
+    public String getVerifiableId(){
+        return super.getUserInfo().getId();
+    }
+
+    @Override
     public void addRate(Rate rate) {
         this.rates.add(rate);
     }
     
     @Override
+    @JsonIgnore
     public String ratingsAvg() {
         float ratingsAvg = 0;
 
@@ -93,6 +110,7 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    @JsonIgnore 
     public String getRateableName() {
         return super.getUserInfo().getUsername();
     }
@@ -106,6 +124,7 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    @JsonIgnore 
     public String getOfferorName() {
         return super.getUserInfo().getUsername();
     }
@@ -113,6 +132,7 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     @Override
     public void handleRequest(RideRequest request) {
         if(this.currentRide == null){
+            this.addNotification("Passenger (" + request.getRequesterName() + ") accept your offer");
             this.currentRide = request;
         }
     }
@@ -123,8 +143,15 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    @JsonIgnore 
     public boolean isHandlingRide() {
         return this.currentRide != null;
+    }
+
+    @Override
+    @JsonIgnore
+    public RideRequest currentRide() {
+        return this.currentRide;
     }
 
     @Override
@@ -138,11 +165,18 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     }
 
     @Override
+    @JsonIgnore 
+    public String getSuspendableId(){
+        return super.getUserInfo().getId();   
+    }
+
+    @Override
     public void addNotification(String notification) {
         this.notifications.add(notification);
     }
 
     @Override
+    @JsonIgnore 
     public ArrayList<String> getNotifications() {
         return this.notifications;
     }
@@ -150,11 +184,14 @@ public class Driver extends User implements Verifiable, Rateable, Offeror, Suspe
     @Override
     public String toString() {
         return 
-            "\nusername: " + super.getUserInfo().getUsername() + "\n" + 
-            (super.getUserInfo().getEmail() != null ? ("email: " + super.getUserInfo().getEmail() + "\n") : "") +
-            "mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
-            "national id: " + nationalID + "\n" + 
-            "driving license: " + drivingLicence + "\n" +
-            (rates.size() > 0 ? (ratingsAvg() + "\n") : "");
+            "\n{\n" + 
+                " id: " + super.getUserInfo().getId() + "\n" + 
+                " username: " + super.getUserInfo().getUsername() + "\n" + 
+                (super.getUserInfo().getEmail() != null ? (" email: " + super.getUserInfo().getEmail() + "\n") : "") +
+                " mobile number: " + super.getUserInfo().getMobileNumber() + "\n" + 
+                " birthdate: " + super.getUserInfo().getBirtdate() + "\n" +
+                " national id: " + nationalID + "\n" + 
+                " driving license: " + drivingLicence + "\n" +
+            "}";
     }
 }

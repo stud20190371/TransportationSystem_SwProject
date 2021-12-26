@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import database.SystemPassengers;
+import enums.AuthFieldName;
 import exceptions.*;
 import user.Passenger;
 import user.User;
@@ -29,31 +30,33 @@ public class PassengerAuthValidator implements AuthenticationValidator {
     }
 
     @Override
-    public User signupValidation(HashMap<String, String> userInfo) throws Exception {
+    public User signupValidation(HashMap<AuthFieldName, String> userInfo) throws Exception {
         for(Passenger passenger: systemPassengers.getPassengers()){
-            if((passenger.getUserInfo().getUsername()).equals(userInfo.get("username"))){
+            if((passenger.getUserInfo().getUsername()).equals(userInfo.get(AuthFieldName.USERNAME))){
                 throw new UsernameExistException("There's already a passenger with this username!");
             }
 
             if(
-                !userInfo.get("email").equals("") &&
-                (passenger.getUserInfo().getEmail()).equals(userInfo.get("email"))
+                userInfo.get(AuthFieldName.EMAIL) != null &&
+                !userInfo.get(AuthFieldName.EMAIL).equals("") &&
+                passenger.getUserInfo().getEmail() != null &&
+                (passenger.getUserInfo().getEmail()).equals(userInfo.get(AuthFieldName.EMAIL))
             ){
                 throw new EmailExistException("There's already a passenger with this email!");
             }
 
-            if((passenger.getUserInfo().getMobileNumber()).equals(userInfo.get("mobile_number"))){
+            if((passenger.getUserInfo().getMobileNumber()).equals(userInfo.get(AuthFieldName.MOBILE_NUMBER))){
                 throw new MobileNumberExistException("There's already a passenger with mobile number!");
             }
         }
 
-        Date userBirthdate = new SimpleDateFormat().parse(userInfo.get("birthdate"));
+        Date userBirthdate = new SimpleDateFormat("dd/MM/yyyy").parse(userInfo.get(AuthFieldName.BIRTHDATE));
 
         Passenger newPassenger = new Passenger(
-            userInfo.get("username"),
-            userInfo.get("mobile_number"),
-            userInfo.get("email").equals("") ? null : userInfo.get("email"),
-            userInfo.get("password"),
+            userInfo.get(AuthFieldName.USERNAME),
+            userInfo.get(AuthFieldName.MOBILE_NUMBER),
+            userInfo.get(AuthFieldName.EMAIL), 
+            userInfo.get(AuthFieldName.PASSWORD),
             userBirthdate
         );
 

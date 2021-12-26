@@ -22,8 +22,12 @@ public abstract class User {
     @Override
     public String toString() {
         return 
-            "\nusername: " + userInfo.getUsername() + "\n" + 
-            (userInfo.getEmail() != null ? ("email: " + userInfo.getEmail() + "\n") : "") +
-            "mobile number: " + userInfo.getMobileNumber() + "\n";
+            "\n{\n" + 
+                " id: " + userInfo.getId() + "\n" + 
+                " username: " + userInfo.getUsername() + "\n" + 
+                (userInfo.getEmail() != null ? (" email: " + userInfo.getEmail() + "\n") : "") +
+                " mobile number: " + userInfo.getMobileNumber() + "\n" +
+                " birthdate: " + userInfo.getBirtdate() + "\n" +
+            "}";
     }
 }

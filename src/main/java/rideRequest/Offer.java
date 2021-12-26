@@ -1,5 +1,7 @@
 package rideRequest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import interfaces.Offeror;
 
 public class Offer {
@@ -9,7 +11,7 @@ public class Offer {
     private static int offersCount = 0;
 
     public Offer(Offeror offeror, float price){
-        this.id = ("request"+(++offersCount));
+        this.id = ("offer"+(++offersCount));
         this.offeror = offeror;
         this.price = price;
     }
@@ -21,6 +23,8 @@ public class Offer {
     public String getOfferorName(){
         return offeror.getOfferorName();
     }
+
+    @JsonIgnore
 
     public Offeror getOfferor(){
         return this.offeror;
@@ -37,7 +41,10 @@ public class Offer {
     @Override
     public String toString() {
         return 
-                "\nofferor: " + offeror.getOfferorName() + "\n" + 
-                "price: " + price + "\n"; 
+            "\n{\n" +
+                " id: " + id + "\n" + 
+                " offeror: " + offeror.getOfferorName() + "\n" + 
+                " price: " + price + "\n" +
+            "}";
     }
 }

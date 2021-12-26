@@ -3,6 +3,7 @@ package authentication;
 import java.util.HashMap;
 
 import database.SystemAdmin;
+import enums.AuthFieldName;
 import exceptions.*;
 import user.User;
 
@@ -27,7 +28,7 @@ public class AdminAuthValidator implements AuthenticationValidator {
     }
 
     @Override
-    public User signupValidation(HashMap<String, String> userInfo) throws Exception {
+    public User signupValidation(HashMap<AuthFieldName, String> userInfo) throws Exception {
         return null;
     }
 

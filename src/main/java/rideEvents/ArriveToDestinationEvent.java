@@ -13,11 +13,22 @@ public class ArriveToDestinationEvent extends RideEvent{
         this.passenger = passenger;
     }
 
+    public String getCaptainName(){
+        return this.captain.getOfferorName();
+    }
+
+    public String getPassengerName(){
+        return this.passenger.getOfferableName();
+    }
+
     @Override
-    public void displayEvent() {
-        System.out.println("Event Name: " + this.getEventName());
-        System.out.println("Event Date: " + this.getEventDate());
-        System.out.println("Captain Name: " + this.captain.getOfferorName());
-        System.out.println("Passenger Name: " + this.passenger.getOfferableName());
+    public String toString() {
+        return 
+            "\n{\n" + 
+                " event name: " + this.getEventName() + "\n" + 
+                " event date: " + this.getEventDate() + "\n" + 
+                " captain name: " + this.captain.getOfferorName() + "\n" + 
+                " passenger name: " + this.passenger.getOfferableName() + "\n" + 
+            "}";
     }
 }

@@ -3,6 +3,8 @@ package rideRequest;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import discounts.Discount;
 import enums.RideRequestStatus;
 import interfaces.RideRequester;
@@ -20,13 +22,13 @@ public class RideRequest {
     private int passengersNum;
     private Date rideDate;
     private RideRequestStatus status;
+    private float ridePrice;
     
     private ArrayList<RideEvent> offerEvents;
     private RideEvent acceptedOfferEvent;
     private RideEvent arriveSourceEvent;
     private RideEvent arriveDestEvent;
 
-    private float ridePrice;
     private ArrayList<Discount> discounts;
 
     private static int rideRequestsCount = 0;
@@ -48,6 +50,7 @@ public class RideRequest {
         return this.id;
     }
 
+    @JsonIgnore
     public RideRequester getRequester(){
         return this.requester;
     }
@@ -59,7 +62,7 @@ public class RideRequest {
     public String getDestName(){
         return this.dest;
     }
-
+    
     public String getRequesterName(){
         return requester.getRequesterName();
     }
@@ -72,6 +75,11 @@ public class RideRequest {
         return this.rideDate;
     }
 
+    public float getRidePrice(){
+        return this.ridePrice;
+    }
+
+    @JsonIgnore
     public boolean matchRequester(RideRequester requester){
         return (this.requester.getRequesterId() == requester.getRequesterId());
     }
@@ -98,11 +106,17 @@ public class RideRequest {
             if(!status.equals(RideRequestStatus.SENT))
             {
                 throw new Exception("You have already accepted an offer");
+            }
 
+            if(((AcceptOfferEvent)event).getAcceptedOffer().getOfferor().isHandlingRide())
+            {
+                throw new Exception("This driver is already handling a ride, you can't accept his/her offer");
             }
 
             acceptedOfferEvent = event;
+
             ((AcceptOfferEvent)acceptedOfferEvent).getAcceptedOffer().getOfferor().handleRequest(this);
+            
             status = RideRequestStatus.WAITING;
         }
         else if(event instanceof ArriveToSourceEvent)
@@ -110,29 +124,34 @@ public class RideRequest {
             if(!status.equals(RideRequestStatus.WAITING))
             {
                 throw new Exception("You can not start the ride");
-
             }
 
             arriveSourceEvent = event;
-            status = RideRequestStatus.RUNNING;
-            ridePrice = ((AcceptOfferEvent)arriveSourceEvent).getAcceptedOffer().getPrice();
+
+            ridePrice = ((AcceptOfferEvent)acceptedOfferEvent).getAcceptedOffer().getPrice();
+
             applyDiscounts();
+
+            status = RideRequestStatus.RUNNING;
         }
         else if(event instanceof ArriveToDestinationEvent)
         {
             if(!status.equals(RideRequestStatus.RUNNING))
             {
                 throw new Exception("You can not finish the ride");
-
             }
 
             arriveDestEvent = event;
+
             this.requester.finishCurrentRequest();
-            ((AcceptOfferEvent)arriveDestEvent).getAcceptedOffer().getOfferor().stopHandlingRequest();
+            
+            ((AcceptOfferEvent)acceptedOfferEvent).getAcceptedOffer().getOfferor().stopHandlingRequest();
+            
             status = RideRequestStatus.FINISHED;
         }
     }
 
+    @JsonIgnore
     public ArrayList<RideEvent> getEvents(){
         ArrayList<RideEvent> rideEvents = new ArrayList<>();
         
@@ -153,6 +172,21 @@ public class RideRequest {
         return rideEvents;
     }
 
+    @JsonIgnore
+    public ArrayList<Offer> getOffers(){
+        ArrayList<Offer> offers = new ArrayList<>();
+
+        for(RideEvent e: offerEvents){
+            offers.add(((OfferEvent)e).getOffer());
+        }
+
+        return offers;
+    }
+
+    public ArrayList<Discount> getDiscounts(){
+        return this.discounts;
+    }
+
     public void addDiscount(Discount discount){
         this.discounts.add(discount);
     }
@@ -163,11 +197,20 @@ public class RideRequest {
         }
     }
 
+
+
     @Override
     public String toString() {
         return 
-                "\nrequester: " + requester.getRequesterName() + "\n" + 
-                "source: " + source + "\n" + 
-                "dest: " + dest + "\n";
+            "\n{\n"+
+                " id: " + id + "\n" + 
+                " status: " + status + "\n" + 
+                " requester: " + requester.getRequesterName() + "\n" + 
+                " source: " + source + "\n" + 
+                " dest: " + dest + "\n" + 
+                " passenger Number: " + passengersNum + "\n" + 
+                " date: " + rideDate + "\n" + 
+                (ridePrice > 0 ? (" Ride Price: " + ridePrice + "\n") : "") + 
+            "}";
     }
 }

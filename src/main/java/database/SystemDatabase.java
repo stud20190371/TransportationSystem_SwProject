@@ -104,10 +104,26 @@ public class SystemDatabase implements Notifier{
         return this.systemRideRequests.getRideRequests();
     }
 
+    public RideRequest getRideRequest(String id){
+        return systemRideRequests.getRideRequest(id);
+    }
+
+    public Driver getDriver(String id){
+        return systemDrivers.getDriver(id);
+    }
+
+    public ArrayList<String> getFeaturedDestinationAreas(){
+        return this.featuredDestinationAreas;
+    }
+
     public void addFeaturedDestinationArea(String area){
         if(!this.isFeaturedDestinationArea(area)){
             this.featuredDestinationAreas.add(area.toLowerCase());
         }
+    }
+
+    public ArrayList<Date> getPublicHolidays(){
+        return this.publicHolidays;
     }
 
     public void addPublicHoliday(Date holiday){
@@ -120,24 +136,26 @@ public class SystemDatabase implements Notifier{
         addDiscountsToRideRequest(request);
         this.systemRideRequests.addRequest(request);
     }
+ 
+    public ArrayList<RideRequest> getMatchedRideRequestsForDriver(Driver driver){
+        ArrayList<RideRequest> requests = new ArrayList<>();
 
-    // public ArrayList<RideRequest> getRequesterRequests(RideRequester requester){
-    //     ArrayList<RideRequest> requests = new ArrayList<>();
+        if(!driver.isHandlingRide()){
+            for(RideRequest request: systemRideRequests.getRideRequests()) {
+                if(driver.getFavoriteAreas().contains(request.getSourceName())) {
+                    requests.add(request) ;
+                }
+            }
+        }
 
-    //     for(RideRequest request: systemRideRequests.getRideRequests()){
-    //         if(request.matchRequester(requester)){
-    //             requests.add(request);
-    //         }
-    //     }
-
-    //     return requests;
-    // }
+        return requests;
+    }
 
     public void notifyDrivers(RideRequest request){
         for(Driver driver: systemDrivers.getDrivers()){
             if((driver.searchArea(request.getSourceName()) != -1) && !driver.isHandlingRide()){
-                String notification = "\nThere's a ride request by (" + request.getRequesterName() + ")\n" + 
-                            "Source: " + request.getSourceName() + " and Destination: " + request.getDestName() + "\n";
+                String notification = 
+                        "There's a ride request by (" + request.getRequesterName() + ") Source: " + request.getSourceName() + " and Destination: " + request.getDestName();
                             
                 notify(driver, notification);
             }
@@ -145,19 +163,13 @@ public class SystemDatabase implements Notifier{
     }
 
     public void notifyPassenger(Passenger passenger, Offer offer){
-        String notification = "\nThere's an offer by (" + offer.getOfferorName() + ")\n" + 
-                            "Price: " + offer.getPrice() + "\n";
+        String notification = "There's an offer by (" + offer.getOfferorName() + ") Price: " + offer.getPrice();
 
         notify(passenger, notification);
     }
-
 
     @Override
     public void notify(Notifiable notifiable, String notification) {
         notifiable.addNotification(notification);
     }
-
-    
-
-    
 }

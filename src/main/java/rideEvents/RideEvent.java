@@ -26,6 +26,4 @@ public abstract class RideEvent {
     public Date getEventDate(){
         return eventDate;
     }
-
-    public abstract void displayEvent();
 }

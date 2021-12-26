@@ -1,5 +1,7 @@
 package rideEvents;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import interfaces.Offerable;
 import rideRequest.Offer;
 
@@ -13,14 +15,22 @@ public class AcceptOfferEvent extends RideEvent{
         this.acceptedOffer = acceptedOffer;
     }
 
+    @JsonIgnore
     public Offer getAcceptedOffer(){
         return this.acceptedOffer;
     }
 
+    public String getPassengerName(){
+        return this.offerable.getOfferableName();
+    }
+
     @Override
-    public void displayEvent() {
-        System.out.println("Event Name: " + this.getEventName());
-        System.out.println("Event Date: " + this.getEventDate());
-        System.out.println("Passenger Name: " + this.offerable.getOfferableName());
+    public String toString() {
+        return 
+            "\n{\n" + 
+                " event name: " + this.getEventName() + "\n" + 
+                " event date: " + this.getEventDate() + "\n" + 
+                " passenger name: " + this.offerable.getOfferableName() + "\n" + 
+            "}";
     }
 }

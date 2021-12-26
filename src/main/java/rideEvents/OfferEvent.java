@@ -1,5 +1,7 @@
 package rideEvents;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import rideRequest.Offer;
 
 public class OfferEvent extends RideEvent{
@@ -10,15 +12,27 @@ public class OfferEvent extends RideEvent{
         this.offer = offer;
     }
 
+    @JsonIgnore
     public Offer getOffer(){
         return this.offer;
     }
 
+    public String getCaptainName(){
+        return this.offer.getOfferorName();
+    }
+
+    public float getPrice(){
+        return this.offer.getPrice();
+    }
+
     @Override
-    public void displayEvent() {
-        System.out.println("Event Name: " + this.getEventName());
-        System.out.println("Event Date: " + this.getEventDate());
-        System.out.println("Captain Name: " + this.offer.getOfferorName());
-        System.out.println("Price: " + this.offer.getPrice());
-    }   
+    public String toString() {
+        return 
+            "\n{\n" + 
+                " event name: " + this.getEventName() + "\n" + 
+                " event date: " + this.getEventDate() + "\n" + 
+                " captain name: " + this.offer.getOfferorName() + "\n" + 
+                " price: " + this.offer.getPrice() + "\n" + 
+            "}";
+    }
 }
